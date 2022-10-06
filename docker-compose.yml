@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  # RNAcentral website
+  rnacentral:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8001
+    ports:
+      - "8001:8001"
