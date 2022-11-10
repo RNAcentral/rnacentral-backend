@@ -15,12 +15,27 @@ Including another URLconf
 """
 from django.urls import path
 
-from sequence.api.viewsets import SequenceFeaturesAPIViewSet
+from sequence.api.accession.viewsets import AccessionAPIViewSet
+from sequence.api.sequence_feature.viewsets import SequenceFeaturesAPIViewSet
+from sequence.api.rna.viewsets import RnaAPIViewSet
 
 urlpatterns = [
     path(
+        # sequence features found in a sequence
         "api/v2/rna/<str:upi>/sequence-features/<int:taxid>",
         SequenceFeaturesAPIViewSet.as_view(),
         name="rna-sequence-features"
+    ),
+    path(
+        # view for an individual cross-reference
+        "api/v2/accession/<str:pk>/info",
+        AccessionAPIViewSet.as_view(),
+        name="accession-detail"
+    ),
+    path(
+        # single RNAcentral sequence
+        "api/v2/rna/<str:pk>",
+        RnaAPIViewSet.as_view(),
+        name="rna-detail"
     ),
 ]
