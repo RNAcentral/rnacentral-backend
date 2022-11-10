@@ -49,3 +49,7 @@ class Accession(models.Model):
 
     class Meta:
         db_table = "rnc_accessions"
+        ordering = ["accession"]
+
+    def __str__(self):
+        return self.accession
