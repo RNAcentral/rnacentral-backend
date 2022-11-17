@@ -1,3 +1,6 @@
+import json
+import re
+
 from django.db import models
 
 
@@ -27,7 +30,8 @@ class Accession(models.Model):
     database = models.CharField(max_length=20)
     external_id = models.CharField(max_length=150)
 
-    # GeneID (without coordinates); used to find splice variants for lncRNAs OR mature/precursor RNAs for miRNAs
+    # GeneID (without coordinates); used to find splice variants for lncRNAs OR
+    # mature/precursor RNAs for miRNAs
     optional_id = models.CharField(max_length=100)
     common_name = models.CharField(max_length=200, default="")
 
@@ -53,3 +57,92 @@ class Accession(models.Model):
 
     def __str__(self):
         return self.accession
+
+    @property
+    def get_external_id_without_version(self):
+        """
+        Some databases add version to id, e.g. Meth.acet._AE010299.1 from SRPDB.
+        We want to remove the ".1" from the external_id
+        """
+        return re.sub("\.\d+$", "", self.external_id) if \
+            self.external_id else None
+
+    @property
+    def get_json_object_from_note(self):
+        try:
+            json_object = json.loads(self.note)
+        except ValueError:
+            json_object = ""
+        return json_object
+
+    @property
+    def get_pdb_entity_id(self):
+        """Example PDB accession: 1J5E_A_1 (PDB id, chain, entity id)"""
+        return self.accession.split("_")[-1] if \
+            self.database == "PDBE" else None
+
+    @property
+    def get_ena_url(self):
+        """
+        Get the ENA entry url that refers to the entry from
+        the Non-coding product containing the cross-reference.
+        """
+        # no ENA source links for these entries
+        no_ena_links = [
+            "RFAM", "PDBE", "REFSEQ", "RDP", "GtRNAdb", "lncRNAdb", "miRBase",
+            "pombase", "Dictybase", "SGD", "snopy", "Srpdb", "tair",
+            "tmRNA website",
+        ]
+
+        if self.database in no_ena_links:
+            return ""
+
+        ena_base_url = "https://www.ebi.ac.uk/ena/browser/view/Non-coding:"
+
+        if self.is_composite == "Y":
+            return ena_base_url + self.non_coding_id
+        else:
+            return ena_base_url + self.accession
+
+    @property
+    def get_ensembl_species_url(self):
+        """Get species name in a format that can be used in Ensembl urls."""
+        from .ensembl_assembly import EnsemblAssembly
+        from .xref import Xref
+
+        if "ENSEMBL" not in self.database:
+            return ""
+
+        if self.species == "Dictyostelium discoideum":
+            species = "Dictyostelium discoideum AX4"
+        elif self.species.startswith("Mus musculus")\
+                and self.accession.startswith("MGP"):  # Ensembl mouse strain
+            parts = self.accession.split("_")
+
+            if len(parts) == 3:
+                species = "Mus musculus " + parts[1]
+            else:
+                species = self.species
+        elif self.species.count(" ") > 1 or self.species.count("-") > 0:
+            try:
+                xref = Xref.objects.filter(
+                    accession__accession=self.accession, deleted="N"
+                ).get()
+                ensembl_genome = EnsemblAssembly.objects.filter(
+                    taxid=xref.taxid
+                ).first()
+
+                if ensembl_genome:
+                    return ensembl_genome.ensembl_url
+                else:
+                    species = self.species
+            except Xref.DoesNotExist:
+                return None
+            except EnsemblAssembly.DoesNotExist:
+                return None
+            except Exception:
+                return None
+        else:
+            species = self.species
+
+        return species.replace(" ", "_").lower()
