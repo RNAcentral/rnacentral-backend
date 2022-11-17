@@ -18,6 +18,7 @@ from django.urls import path
 from sequence.api.accession.viewsets import AccessionAPIViewSet
 from sequence.api.sequence_feature.viewsets import SequenceFeaturesAPIViewSet
 from sequence.api.rna.viewsets import RnaAPIViewSet
+from sequence.api.xref.viewsets import XrefAPIViewSet
 
 urlpatterns = [
     path(
@@ -37,5 +38,19 @@ urlpatterns = [
         "api/v2/rna/<str:pk>",
         RnaAPIViewSet.as_view(),
         name="rna-detail"
+    ),
+    path(
+        # view for all cross-references associated with
+        # an RNAcentral id - no taxid
+        "api/v2/rna/<str:upi>/xrefs",
+        XrefAPIViewSet.as_view(),
+        name="rna-xrefs",
+    ),
+    path(
+        # view for all cross-references associated with
+        # an RNAcentral id and taxid
+        "api/v2/rna/<str:upi>/xrefs/<int:taxid>",
+        XrefAPIViewSet.as_view(),
+        name="rna-xrefs",
     ),
 ]
