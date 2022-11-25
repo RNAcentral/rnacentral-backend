@@ -17,5 +17,5 @@ class AccessionAPIViewSet(APIView):
 
     def get(self, request, pk, format=None):
         accession = self.get_object(pk)
-        serializer = AccessionSerializer(accession)
+        serializer = AccessionSerializer(accession, context={"request": request})
         return Response(serializer.data)

@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 class AccessionSerializer(serializers.Serializer):
     """Serializer class for individual cross-references"""
+    url = serializers.HyperlinkedIdentityField(view_name="accession-detail", read_only=True)
     id = serializers.ReadOnlyField(source="accession")
     parent_ac = serializers.ReadOnlyField()
     seq_version = serializers.ReadOnlyField()
@@ -12,6 +13,9 @@ class AccessionSerializer(serializers.Serializer):
     external_id = serializers.ReadOnlyField()
     optional_id = serializers.ReadOnlyField()
     gene = serializers.ReadOnlyField()
+    species = serializers.ReadOnlyField()
+    organelle = serializers.ReadOnlyField()
+    classification = serializers.ReadOnlyField()
     inference = serializers.ReadOnlyField()
     locus_tag = serializers.ReadOnlyField()
     note = serializers.ReadOnlyField(source="get_json_object_from_note")
