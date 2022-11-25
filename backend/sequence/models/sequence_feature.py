@@ -27,7 +27,7 @@ class SequenceFeature(models.Model):
 
     class Meta:
         db_table = "rnc_sequence_features"
-        ordering = ["-id"]
+        ordering = ["feature_name", "start"]
 
     def __str__(self):
         return self.feature_name
