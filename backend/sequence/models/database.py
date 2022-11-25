@@ -19,6 +19,7 @@ class Database(models.Model):
 
     class Meta:
         db_table = "rnc_database"
+        ordering = ["display_name"]
 
     def __str__(self):
         return self.display_name
