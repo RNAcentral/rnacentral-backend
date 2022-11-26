@@ -1,6 +1,6 @@
 from rest_framework import generics
 
-from .serializers import TargetLncRNAsSerializer, TargetMiRNAsSerializer
+from .serializers import TargetLncRNAsSerializer, TargetMiRNAsSerializer, TargetProteinsSerializer
 from ...models import RelatedSequence
 
 
@@ -18,6 +18,7 @@ class TargetLncRNAsViewSet(generics.ListAPIView):
             relationship_type="target_rna",
             source_urs_taxid=source_urs_taxid,
         ).order_by("target_urs_taxid")
+        # .select_related("target_accession")
 
 
 class TargetMiRNAsViewSet(generics.ListAPIView):
@@ -34,3 +35,17 @@ class TargetMiRNAsViewSet(generics.ListAPIView):
             relationship_type="target_rna",
             target_urs_taxid=target_urs_taxid,
         ).order_by("source_urs_taxid__short_description")
+
+
+class TargetProteinsViewSet(generics.ListAPIView):
+    """API endpoint for target proteins."""
+    serializer_class = TargetProteinsSerializer
+
+    def get_queryset(self):
+        source_urs_taxid = self.kwargs["source_urs_taxid"]
+
+        return RelatedSequence.objects.filter(
+            relationship_type="target_protein",
+            source_urs_taxid=source_urs_taxid,
+        )
+        # .select_related("target_accession")
