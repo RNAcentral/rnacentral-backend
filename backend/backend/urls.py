@@ -19,6 +19,13 @@ from sequence.api.accession.viewsets import AccessionAPIViewSet
 from sequence.api.sequence_feature.viewsets import SequenceFeaturesAPIViewSet
 from sequence.api.rna.viewsets import RnaAPIViewSet
 from sequence.api.xref.viewsets import XrefAPIViewSet
+from sequence.api.related_sequence.viewsets import TargetLncRNAsViewSet, TargetMiRNAsViewSet, TargetProteinsViewSet
+from sequence.api.interaction.viewsets import InteractionsViewSet
+from sequence.api.ensembl_compara.viewsets import EnsemblComparaViewSet
+from sequence.api.go_terms.viewsets import GoTermsViewSet
+from sequence.api.qc_status.viewsets import QcStatusViewSet
+from sequence.api.rfam.viewsets import RfamHitsViewSet
+from sequence.api.sequence_region.viewsets import SequenceRegionViewSet
 
 urlpatterns = [
     path(
@@ -52,5 +59,59 @@ urlpatterns = [
         "api/v2/rna/<str:upi>/xrefs/<int:taxid>",
         XrefAPIViewSet.as_view(),
         name="rna-xrefs",
+    ),
+    path(
+        # view for protein targets
+        "api/v2/rna/<str:source_urs_taxid>/protein-targets",
+        TargetProteinsViewSet.as_view(),
+        name="protein-targets",
+    ),
+    path(
+        # view for targeting lncRNAs
+        "api/v2/rna/<str:source_urs_taxid>/lncrna-targets",
+        TargetLncRNAsViewSet.as_view(),
+        name="lncrna-targets",
+    ),
+    path(
+        # view for targeting miRNAs
+        "api/v2/rna/<str:target_urs_taxid>/mirna-targets",
+        TargetMiRNAsViewSet.as_view(),
+        name="mirna-targets",
+    ),
+    path(
+        # view for interactions
+        "api/v2/rna/<str:urs_taxid>/interactions",
+        InteractionsViewSet.as_view(),
+        name="interactions",
+    ),
+    path(
+        # view for related RNAs in other species
+        "api/v2/rna/<str:urs_taxid>/ensembl-compara",
+        EnsemblComparaViewSet.as_view(),
+        name="ensembl-compara",
+    ),
+    path(
+        # view for gene ontology annotations
+        "api/v2/rna/<str:rna_id>/go-annotations",
+        GoTermsViewSet.as_view(),
+        name="go-annotations",
+    ),
+    path(
+        # information about the qc status for a given sequence
+        "api/v2/rna/<str:pk>/qc-status",
+        QcStatusViewSet.as_view(),
+        name="qc-status",
+    ),
+    path(
+        # rfam hits found in this RNAcentral id
+        "api/v2/rna/<str:upi>/rfam-hits",
+        RfamHitsViewSet.as_view(),
+        name="rfam-hits",
+    ),
+    path(
+        # genome locations for RNA (species-specific)
+        "api/v2/rna/<str:urs_taxid>/genome-locations",
+        SequenceRegionViewSet.as_view(),
+        name="genome-locations",
     ),
 ]
