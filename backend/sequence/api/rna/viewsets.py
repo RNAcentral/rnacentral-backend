@@ -6,8 +6,11 @@ from .serializers import RnaSerializer
 from ...models import Rna
 
 
-class RnaAPIViewSet(APIView):
+class RnaViewSet(APIView):
     """Unique RNAcentral Sequence"""
+
+    def get_view_name(self):
+        return "RNA"
 
     def get_object(self, pk):
         try:

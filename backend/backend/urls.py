@@ -17,7 +17,7 @@ from django.urls import path
 
 from sequence.api.accession.viewsets import AccessionAPIViewSet
 from sequence.api.sequence_feature.viewsets import SequenceFeaturesAPIViewSet
-from sequence.api.rna.viewsets import RnaAPIViewSet
+from sequence.api.rna.viewsets import RnaViewSet
 from sequence.api.xref.viewsets import XrefAPIViewSet
 from sequence.api.related_sequence.viewsets import TargetLncRNAsViewSet, TargetMiRNAsViewSet, TargetProteinsViewSet
 from sequence.api.interaction.viewsets import InteractionsViewSet
@@ -43,7 +43,7 @@ urlpatterns = [
     path(
         # single RNAcentral sequence
         "api/v2/rna/<str:pk>",
-        RnaAPIViewSet.as_view(),
+        RnaViewSet.as_view(),
         name="rna-detail"
     ),
     path(
