@@ -3,10 +3,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .serializers import RnaSerializer
-from ...models import Rna
+from ...models import RnaPrecomputed
 
 
-class RnaViewSet(APIView):
+class RnaPrecomputedViewSet(APIView):
     """Unique RNAcentral Sequence"""
 
     def get_view_name(self):
@@ -14,8 +14,8 @@ class RnaViewSet(APIView):
 
     def get_object(self, pk):
         try:
-            return Rna.objects.get(pk=pk)
-        except Rna.DoesNotExist:
+            return RnaPrecomputed.objects.get(pk=pk)
+        except RnaPrecomputed.DoesNotExist:
             raise Http404
 
     def get(self, request, pk, format=None):
