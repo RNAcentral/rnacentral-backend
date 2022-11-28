@@ -13,4 +13,5 @@ from .rna import *
 from .rna_precomputed import *
 from .sequence_feature import *
 from .sequence_regions import *
+from .taxonomy import *
 from .xref import *

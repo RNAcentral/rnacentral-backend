@@ -17,7 +17,7 @@ from django.urls import path
 
 from sequence.api.accession.viewsets import AccessionAPIViewSet
 from sequence.api.sequence_feature.viewsets import SequenceFeaturesAPIViewSet
-from sequence.api.rna_precomputed.viewsets import RnaPrecomputedViewSet
+from sequence.api.rna_precomputed.viewsets import RnaPrecomputedViewSet, TaxonomyViewSet
 from sequence.api.xref.viewsets import XrefAPIViewSet
 from sequence.api.related_sequence.viewsets import TargetLncRNAsViewSet, TargetMiRNAsViewSet, TargetProteinsViewSet
 from sequence.api.interaction.viewsets import InteractionsViewSet
@@ -113,5 +113,11 @@ urlpatterns = [
         "api/v2/rna/<str:urs_taxid>/genome-locations",
         SequenceRegionViewSet.as_view(),
         name="genome-locations",
+    ),
+    path(
+        # search the sequence in other species
+        "api/v2/rna/<str:upi>/taxonomy/<int:taxid>",
+        TaxonomyViewSet.as_view(),
+        name="taxonomy",
     ),
 ]

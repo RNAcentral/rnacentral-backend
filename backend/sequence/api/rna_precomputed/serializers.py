@@ -14,6 +14,12 @@ class RnaSerializer(serializers.Serializer):
     md5 = serializers.ReadOnlyField(source="upi.md5")
 
 
+class TaxonomySerializer(serializers.Serializer):
+    urs_taxid = serializers.ReadOnlyField()
+    short_description = serializers.ReadOnlyField()
+    species_name = serializers.ReadOnlyField()
+
+
 class RnaPrecomputedSerializer(serializers.ModelSerializer):
     class Meta:
         model = RnaPrecomputed
