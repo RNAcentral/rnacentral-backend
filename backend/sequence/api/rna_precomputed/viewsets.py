@@ -1,11 +1,12 @@
 from django.http import Http404
-from django.db.models import Q
+from django.db import connection
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .serializers import RnaSerializer, TaxonomySerializer
-from ...models import RnaPrecomputed, Taxonomy
+from ...models import RnaPrecomputed
+from ...utils import dictfetchall
 
 
 class RnaPrecomputedViewSet(APIView):
@@ -33,23 +34,21 @@ class TaxonomyViewSet(generics.ListAPIView):
     def get_queryset(self):
         upi = self.kwargs["upi"]
         taxid = self.kwargs["taxid"]
-        get_annotations_from_other_species = []
 
-        rna_precomputed = RnaPrecomputed.objects.filter(
-            ~Q(taxid=taxid), ~Q(taxid__isnull=True), upi=upi, is_active=True
+        query = """
+            SELECT t1.id AS urs_taxid, t1.short_description, t2.name as species_name
+            FROM {rna_precomputed} t1, rnc_taxonomy t2
+            WHERE t1.upi = '{urs}'
+            AND t1.taxid != {taxid}
+            AND t1.is_active is True
+            AND t1.taxid is not NULL
+            AND t1.taxid = t2.id
+            ORDER BY description
+            LIMIT 10000
+        """.format(
+            urs=upi, taxid=taxid, rna_precomputed=RnaPrecomputed._meta.db_table
         )
-
-        for item in rna_precomputed:
-            try:
-                taxonomy = Taxonomy.objects.get(pk=item.taxid)
-                get_annotations_from_other_species.append(
-                    {
-                        "urs_taxid": item.id,
-                        "short_description": item.short_description,
-                        "species_name": taxonomy.name
-                    }
-                )
-            except Taxonomy.DoesNotExist:
-                pass
-
-        return get_annotations_from_other_species
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+            data = dictfetchall(cursor)
+        return data
