@@ -30,8 +30,9 @@ ENV \
     # RNAcentral
     RNACENTRAL_HOME="/srv/rnacentral/rnacentral-backend"
 
-# create folder
+# create folder and set work directory
 RUN mkdir -p $RNACENTRAL_HOME
+WORKDIR $RNACENTRAL_HOME
 
 # install requirements
 COPY --from=poetry /tmp/requirements.txt .
