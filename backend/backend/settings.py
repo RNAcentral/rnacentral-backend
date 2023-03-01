@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
 ]
 
 PROJECT_APPS = (
@@ -42,6 +43,7 @@ PROJECT_APPS = (
 INSTALLED_APPS += PROJECT_APPS
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -122,6 +124,9 @@ REST_FRAMEWORK = {
 
 # Test runner with no database creation
 TEST_RUNNER = 'sequence.tests.test_runner.NoDbTestRunner'
+
+# Allows any website to make cross-origin requests
+CORS_ALLOW_ALL_ORIGINS = True
 
 try:
     from .local_settings import *
