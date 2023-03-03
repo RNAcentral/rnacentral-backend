@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import filters, generics
 
 from .serializers import XrefSerializer
 from ...models import Xref
@@ -9,6 +9,8 @@ class XrefAPIViewSet(generics.ListAPIView):
     List of cross-references for a particular RNA sequence in a specific species
     """
     serializer_class = XrefSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["db__display_name"]
 
     def get_queryset(self):
         upi = self.kwargs["upi"]
