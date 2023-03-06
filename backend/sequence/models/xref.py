@@ -41,7 +41,7 @@ class Xref(models.Model):
 
     class Meta:
         db_table = "xref"
-        ordering = ["-upi"]
+        ordering = ["db"]
 
     def __str__(self):
         return self.upi

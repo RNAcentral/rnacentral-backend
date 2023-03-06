@@ -21,7 +21,7 @@ class XrefAPIViewSet(generics.ListAPIView):
 
         xrefs = Xref.objects.filter(deleted="N", upi=upi)\
             .exclude(accession__accession__startswith="PSICQUIC")\
-            .order_by("-db__id")
+            .order_by("db")
 
         # Sometimes xrefs are deleted from databases (e.g. when by mistake they
         # were annotated as RNA being in fact protein-coding sequences). If our
@@ -30,7 +30,7 @@ class XrefAPIViewSet(generics.ListAPIView):
         # accessible from web.
         if not xrefs:
             xrefs = Xref.objects.filter(deleted="Y", upi=upi)\
-                .order_by("-db__id")
+                .order_by("db")
 
         if taxid:
             xrefs = xrefs.filter(taxid=taxid)
