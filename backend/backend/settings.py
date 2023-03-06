@@ -113,7 +113,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny'
     ],
     # API results pagination
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": "sequence.custom_pagination.CustomPageNumberPagination",
     "PAGE_SIZE": 10,
     # API throttling
     "DEFAULT_THROTTLE_CLASSES": (
