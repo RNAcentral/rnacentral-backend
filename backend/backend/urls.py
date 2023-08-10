@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.contrib import admin
 from django.urls import path
 
 from sequence.api.accession.viewsets import AccessionAPIViewSet
@@ -26,8 +27,10 @@ from sequence.api.go_terms.viewsets import GoTermsViewSet
 from sequence.api.qc_status.viewsets import QcStatusViewSet
 from sequence.api.rfam.viewsets import RfamHitsViewSet
 from sequence.api.sequence_region.viewsets import SequenceRegionViewSet
+from sequence.api.database.viewsets import DatabaseViewSet, DatabaseListViewSet
 
 urlpatterns = [
+    path("admin/", admin.site.urls),
     path(
         # single RNAcentral sequence
         "api/v2/rna/<str:pk>",
@@ -119,5 +122,17 @@ urlpatterns = [
         "api/v2/rna/<str:upi>/taxonomy/<int:taxid>",
         TaxonomyViewSet.as_view(),
         name="taxonomy",
+    ),
+    path(
+        # list of Expert DB
+        "api/v2/database",
+        DatabaseListViewSet.as_view(),
+        name="database-list",
+    ),
+    path(
+        # view for specifc Expert DB
+        "api/v2/database/<str:pk>",
+        DatabaseViewSet.as_view(),
+        name="database",
     ),
 ]
