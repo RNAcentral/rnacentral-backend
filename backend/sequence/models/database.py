@@ -16,6 +16,10 @@ class Database(models.Model):
     max_length = models.BigIntegerField()
     num_sequences = models.BigIntegerField()
     num_organisms = models.BigIntegerField()
+    description = models.CharField(max_length=255)
+    url = models.CharField(max_length=255)
+    example = models.JSONField()
+    reference = models.JSONField()
 
     class Meta:
         db_table = "rnc_database"

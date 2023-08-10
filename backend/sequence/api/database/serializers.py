@@ -14,3 +14,7 @@ class DatabaseSerializer(serializers.Serializer):
     max_length = serializers.ReadOnlyField()
     num_sequences = serializers.ReadOnlyField()
     num_organisms = serializers.ReadOnlyField()
+    description = serializers.ReadOnlyField()
+    url = serializers.ReadOnlyField()
+    example = serializers.ReadOnlyField()
+    reference = serializers.ReadOnlyField()
