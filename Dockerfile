@@ -11,7 +11,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # install poetry
-RUN python -m pip install --no-cache-dir --upgrade poetry==1.2.1
+RUN python -m pip install --no-cache-dir --upgrade poetry==1.5.1
 
 # copy dependencies
 COPY poetry.lock pyproject.toml ./
