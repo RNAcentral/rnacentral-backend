@@ -5,6 +5,7 @@ from ..go_terms.serializers import OntologyTermSerializer
 
 class RfamClanSerializer(serializers.Serializer):
     """Serializer class for Rfam clans"""
+
     rfam_clan_id = serializers.ReadOnlyField()
     name = serializers.ReadOnlyField()
     description = serializers.ReadOnlyField()
@@ -13,6 +14,7 @@ class RfamClanSerializer(serializers.Serializer):
 
 class RfamModelSerializer(serializers.Serializer):
     """Serializer class for Rfam families"""
+
     rfam_model_id = serializers.ReadOnlyField()
     short_name = serializers.ReadOnlyField()
     long_name = serializers.ReadOnlyField()
@@ -32,6 +34,7 @@ class RfamModelSerializer(serializers.Serializer):
 
 class RfamHitsSerializer(serializers.Serializer):
     """Serializer class for Rfam Hits"""
+
     sequence_start = serializers.ReadOnlyField()
     sequence_stop = serializers.ReadOnlyField()
     sequence_completeness = serializers.ReadOnlyField()

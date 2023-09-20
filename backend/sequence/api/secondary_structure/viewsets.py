@@ -22,16 +22,16 @@ class SecondaryStructureSVGImage(generics.ListAPIView):
 
         upi = list(self.kwargs["upi"])
         upi_path = (
-                "".join(upi[0:3])
-                + "/"
-                + "".join(upi[3:5])
-                + "/"
-                + "".join(upi[5:7])
-                + "/"
-                + "".join(upi[7:9])
-                + "/"
-                + "".join(upi[9:11])
-                + "/"
+            "".join(upi[0:3])
+            + "/"
+            + "".join(upi[3:5])
+            + "/"
+            + "".join(upi[5:7])
+            + "/"
+            + "".join(upi[7:9])
+            + "/"
+            + "".join(upi[9:11])
+            + "/"
         )
 
         s3_file = "prod/" + upi_path + self.kwargs["upi"] + ".svg.gz"
@@ -58,7 +58,9 @@ class SecondaryStructureSVGImage(generics.ListAPIView):
                 width = re.findall(r'width="(\d+(\.\d+)?)"', line)
             if not height:
                 height = re.findall(r'height="(\d+(\.\d+)?)"', line)
-            for nt in re.finditer('<text x="(\d+)(\.\d+)?" y="(\d+)(\.\d+)?".*?</text>', line):
+            for nt in re.finditer(
+                '<text x="(\d+)(\.\d+)?" y="(\d+)(\.\d+)?".*?</text>', line
+            ):
                 if "numbering-label" in nt.group(0):
                     continue
                 if not move_to_start_position:

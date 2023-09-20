@@ -29,6 +29,7 @@ class RnaPrecomputedViewSet(APIView):
 
 class TaxonomyViewSet(generics.ListAPIView):
     """API to search the sequence in other species"""
+
     serializer_class = TaxonomySerializer
 
     def get_queryset(self):

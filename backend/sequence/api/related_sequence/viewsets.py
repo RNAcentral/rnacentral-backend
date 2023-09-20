@@ -1,11 +1,16 @@
 from rest_framework import generics
 
-from .serializers import TargetLncRNAsSerializer, TargetMiRNAsSerializer, TargetProteinsSerializer
+from .serializers import (
+    TargetLncRNAsSerializer,
+    TargetMiRNAsSerializer,
+    TargetProteinsSerializer,
+)
 from ...models import RelatedSequence
 
 
 class TargetLncRNAsViewSet(generics.ListAPIView):
     """API endpoint for target lncRNAs."""
+
     serializer_class = TargetLncRNAsSerializer
 
     def get_view_name(self):
@@ -23,6 +28,7 @@ class TargetLncRNAsViewSet(generics.ListAPIView):
 
 class TargetMiRNAsViewSet(generics.ListAPIView):
     """API endpoint for target miRNAs."""
+
     serializer_class = TargetMiRNAsSerializer
 
     def get_view_name(self):
@@ -39,6 +45,7 @@ class TargetMiRNAsViewSet(generics.ListAPIView):
 
 class TargetProteinsViewSet(generics.ListAPIView):
     """API endpoint for target proteins."""
+
     serializer_class = TargetProteinsSerializer
 
     def get_queryset(self):

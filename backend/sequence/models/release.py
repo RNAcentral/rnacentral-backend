@@ -3,10 +3,7 @@ from django.db import models
 
 class Release(models.Model):
     db = models.ForeignKey(
-        "Database",
-        db_column="dbid",
-        related_name="db",
-        on_delete=models.CASCADE
+        "Database", db_column="dbid", related_name="db", on_delete=models.CASCADE
     )
     release_date = models.DateField()
     release_type = models.CharField(max_length=1)

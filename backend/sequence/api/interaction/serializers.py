@@ -5,15 +5,22 @@ from rest_framework import serializers
 
 class InteractionsSerializer(serializers.Serializer):
     """Serializer class for interactions"""
+
     intact_id = serializers.ReadOnlyField()
     intact_id_url = serializers.SerializerMethodField(method_name="get_intact_id_url")
     interacting_id = serializers.SerializerMethodField(method_name="get_interacting_id")
-    interacting_id_url = serializers.SerializerMethodField(method_name="get_interacting_id_url")
+    interacting_id_url = serializers.SerializerMethodField(
+        method_name="get_interacting_id_url"
+    )
     names = serializers.JSONField(read_only=True)
 
     def get_intact_id_url(self, obj):
         match = re.search(r"URS[0-9A-Fa-f]{10}[_-]\d+", obj.intact_id)
-        return None if match else f"https://www.ebi.ac.uk/intact/interaction/{obj.intact_id}"
+        return (
+            None
+            if match
+            else f"https://www.ebi.ac.uk/intact/interaction/{obj.intact_id}"
+        )
 
     def get_interacting_id(self, obj):
         match = re.search(r"URS[0-9A-Fa-f]{10}[_-]\d+", "".join(obj.names))

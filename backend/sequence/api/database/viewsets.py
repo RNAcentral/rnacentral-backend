@@ -9,6 +9,7 @@ from ...models import Database
 
 class DatabaseListViewSet(generics.ListAPIView):
     """API endpoint for getting a list of Expert Databases"""
+
     serializer_class = DatabaseListSerializer
 
     def get_queryset(self):

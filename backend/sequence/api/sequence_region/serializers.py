@@ -6,6 +6,7 @@ from ..ensembl_assembly.serializers import EnsemblAssemblySerializer
 
 class SequenceRegionSerializer(serializers.Serializer):
     """Serializer class for Sequence Region"""
+
     chromosome = serializers.ReadOnlyField()
     strand = serializers.ReadOnlyField()
     start = serializers.ReadOnlyField(source="region_start")

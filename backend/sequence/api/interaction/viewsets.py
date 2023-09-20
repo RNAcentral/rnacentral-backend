@@ -6,6 +6,7 @@ from ...models import Interactions
 
 class InteractionsViewSet(generics.ListAPIView):
     """API endpoint for interactions."""
+
     serializer_class = InteractionsSerializer
 
     def get_queryset(self):

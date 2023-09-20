@@ -8,6 +8,7 @@ class XrefAPIViewSet(generics.ListAPIView):
     """
     List of cross-references for a particular RNA sequence in a specific species
     """
+
     serializer_class = XrefSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ["db__display_name"]
@@ -19,9 +20,11 @@ class XrefAPIViewSet(generics.ListAPIView):
         except KeyError:
             taxid = None
 
-        xrefs = Xref.objects.filter(deleted="N", upi=upi)\
-            .exclude(accession__accession__startswith="PSICQUIC")\
+        xrefs = (
+            Xref.objects.filter(deleted="N", upi=upi)
+            .exclude(accession__accession__startswith="PSICQUIC")
             .order_by("db")
+        )
 
         # Sometimes xrefs are deleted from databases (e.g. when by mistake they
         # were annotated as RNA being in fact protein-coding sequences). If our
@@ -29,8 +32,7 @@ class XrefAPIViewSet(generics.ListAPIView):
         # return these wrong annotations to hard-links to deleted sequences
         # accessible from web.
         if not xrefs:
-            xrefs = Xref.objects.filter(deleted="Y", upi=upi)\
-                .order_by("db")
+            xrefs = Xref.objects.filter(deleted="Y", upi=upi).order_by("db")
 
         if taxid:
             xrefs = xrefs.filter(taxid=taxid)

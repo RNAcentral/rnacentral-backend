@@ -3,7 +3,10 @@ from rest_framework import serializers
 
 class AccessionSerializer(serializers.Serializer):
     """Serializer class for individual cross-references"""
-    url = serializers.HyperlinkedIdentityField(view_name="accession-detail", read_only=True)
+
+    url = serializers.HyperlinkedIdentityField(
+        view_name="accession-detail", read_only=True
+    )
     id = serializers.ReadOnlyField(source="accession")
     parent_ac = serializers.ReadOnlyField()
     seq_version = serializers.ReadOnlyField()
@@ -25,6 +28,4 @@ class AccessionSerializer(serializers.Serializer):
     )
     pdb_entity_id = serializers.ReadOnlyField(source="get_pdb_entity_id")
     ena_url = serializers.ReadOnlyField(source="get_ena_url")
-    ensembl_species_url = serializers.ReadOnlyField(
-        source="get_ensembl_species_url"
-    )
+    ensembl_species_url = serializers.ReadOnlyField(source="get_ensembl_species_url")

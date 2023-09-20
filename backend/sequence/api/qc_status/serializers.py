@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 class QcStatusSerializer(serializers.Serializer):
     """Serializer class for QC Status"""
+
     id = serializers.PrimaryKeyRelatedField(read_only=True)
     has_issue = serializers.ReadOnlyField()
     incomplete_sequence = serializers.ReadOnlyField()

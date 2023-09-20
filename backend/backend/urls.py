@@ -20,7 +20,11 @@ from sequence.api.accession.viewsets import AccessionAPIViewSet
 from sequence.api.sequence_feature.viewsets import SequenceFeaturesAPIViewSet
 from sequence.api.rna_precomputed.viewsets import RnaPrecomputedViewSet, TaxonomyViewSet
 from sequence.api.xref.viewsets import XrefAPIViewSet
-from sequence.api.related_sequence.viewsets import TargetLncRNAsViewSet, TargetMiRNAsViewSet, TargetProteinsViewSet
+from sequence.api.related_sequence.viewsets import (
+    TargetLncRNAsViewSet,
+    TargetMiRNAsViewSet,
+    TargetProteinsViewSet,
+)
 from sequence.api.interaction.viewsets import InteractionsViewSet
 from sequence.api.ensembl_compara.viewsets import EnsemblComparaViewSet
 from sequence.api.go_terms.viewsets import GoTermsViewSet
@@ -36,19 +40,19 @@ urlpatterns = [
         # single RNAcentral sequence
         "api/v2/rna/<str:pk>",
         RnaPrecomputedViewSet.as_view(),
-        name="rna-detail"
+        name="rna-detail",
     ),
     path(
         # sequence features found in a sequence
         "api/v2/rna/<str:upi>/sequence-features/<int:taxid>",
         SequenceFeaturesAPIViewSet.as_view(),
-        name="rna-sequence-features"
+        name="rna-sequence-features",
     ),
     path(
         # view for an individual cross-reference
         "api/v2/accession/<str:pk>/info",
         AccessionAPIViewSet.as_view(),
-        name="accession-detail"
+        name="accession-detail",
     ),
     path(
         # view for all cross-references associated with

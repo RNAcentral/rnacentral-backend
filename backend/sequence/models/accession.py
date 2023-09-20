@@ -64,8 +64,7 @@ class Accession(models.Model):
         Some databases add version to id, e.g. Meth.acet._AE010299.1 from SRPDB.
         We want to remove the ".1" from the external_id
         """
-        return re.sub("\.\d+$", "", self.external_id) if \
-            self.external_id else None
+        return re.sub("\.\d+$", "", self.external_id) if self.external_id else None
 
     @property
     def get_json_object_from_note(self):
@@ -78,8 +77,7 @@ class Accession(models.Model):
     @property
     def get_pdb_entity_id(self):
         """Example PDB accession: 1J5E_A_1 (PDB id, chain, entity id)"""
-        return self.accession.split("_")[-1] if \
-            self.database == "PDBE" else None
+        return self.accession.split("_")[-1] if self.database == "PDBE" else None
 
     @property
     def get_ena_url(self):
@@ -89,8 +87,19 @@ class Accession(models.Model):
         """
         # no ENA source links for these entries
         no_ena_links = [
-            "RFAM", "PDBE", "REFSEQ", "RDP", "GtRNAdb", "lncRNAdb", "miRBase",
-            "pombase", "Dictybase", "SGD", "snopy", "Srpdb", "tair",
+            "RFAM",
+            "PDBE",
+            "REFSEQ",
+            "RDP",
+            "GtRNAdb",
+            "lncRNAdb",
+            "miRBase",
+            "pombase",
+            "Dictybase",
+            "SGD",
+            "snopy",
+            "Srpdb",
+            "tair",
             "tmRNA website",
         ]
 
@@ -115,8 +124,9 @@ class Accession(models.Model):
 
         if self.species == "Dictyostelium discoideum":
             species = "Dictyostelium discoideum AX4"
-        elif self.species.startswith("Mus musculus")\
-                and self.accession.startswith("MGP"):  # Ensembl mouse strain
+        elif self.species.startswith("Mus musculus") and self.accession.startswith(
+            "MGP"
+        ):  # Ensembl mouse strain
             parts = self.accession.split("_")
 
             if len(parts) == 3:

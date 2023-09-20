@@ -10,9 +10,7 @@ class EnsemblAssembly(models.Model):
     taxid = models.IntegerField(unique=True)  # unique creates an index
     ensembl_url = models.CharField(max_length=100, db_index=True, null=True)
     division = models.CharField(max_length=20, db_index=True, null=True)
-    subdomain = models.CharField(
-        max_length=100, db_index=True, default="ensembl.org"
-    )
+    subdomain = models.CharField(max_length=100, db_index=True, default="ensembl.org")
     example_chromosome = models.CharField(max_length=20, null=True)
     example_start = models.IntegerField(null=True)
     example_end = models.IntegerField(null=True)

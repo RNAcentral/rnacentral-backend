@@ -5,6 +5,7 @@ from ...models.rna_precomputed import RnaPrecomputed
 
 class RnaSerializer(serializers.Serializer):
     """Serializer class for a unique RNAcentral sequence"""
+
     rnacentral_id = serializers.ReadOnlyField(source="id")
     description = serializers.ReadOnlyField()
     rna_type = serializers.ReadOnlyField()

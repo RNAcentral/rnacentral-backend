@@ -3,12 +3,14 @@ from rest_framework import serializers
 
 class DatabaseListSerializer(serializers.Serializer):
     """Serializer class for a list of Expert Databases"""
+
     id = serializers.ReadOnlyField()
     display_name = serializers.ReadOnlyField()
 
 
 class DatabaseSerializer(serializers.Serializer):
     """Serializer class for an Expert Database"""
+
     id = serializers.ReadOnlyField()
     descr = serializers.ReadOnlyField()
     current_release = serializers.ReadOnlyField()

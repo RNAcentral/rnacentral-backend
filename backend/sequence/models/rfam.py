@@ -8,6 +8,7 @@ class RfamClan(models.Model):
     A simple container to store information about Rfam clans. This is just to
     contain some useful meta data about clans for display in RNAcentral.
     """
+
     rfam_clan_id = models.CharField(max_length=20, primary_key=True)
     name = models.CharField(max_length=40)
     description = models.CharField(max_length=1000)
@@ -26,6 +27,7 @@ class RfamModel(models.Model):
     A simple container about Rfam families. This table contains just enough
     data to make it easy to display Rfam family data in RNAcentral.
     """
+
     rfam_model_id = models.CharField(max_length=20, primary_key=True)
     short_name = models.CharField(max_length=50)
     long_name = models.CharField(max_length=200)
@@ -78,6 +80,7 @@ class RfamHit(models.Model):
     idea is that we represent the regions of the sequence and model that are
     matched.
     """
+
     rfam_hit_id = models.AutoField(primary_key=True)
     upi = models.ForeignKey(
         "Rna", db_column="upi", to_field="upi", on_delete=models.CASCADE

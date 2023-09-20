@@ -8,6 +8,7 @@ class SequenceRegionViewSet(generics.ListAPIView):
     """
     List of distinct genomic locations, where a specific RNA is found in a specific species, extracted from xrefs.
     """
+
     serializer_class = SequenceRegionSerializer
 
     def get_queryset(self):
@@ -19,4 +20,6 @@ class SequenceRegionViewSet(generics.ListAPIView):
         except RnaPrecomputed.DoesNotExist:
             return SequenceRegion.objects.none()
 
-        return SequenceRegion.objects.filter(urs_taxid=rna_precomputed).select_related("assembly")
+        return SequenceRegion.objects.filter(urs_taxid=rna_precomputed).select_related(
+            "assembly"
+        )
