@@ -5,7 +5,12 @@ class DatabaseListSerializer(serializers.Serializer):
     """Serializer class for a list of Expert Databases"""
 
     id = serializers.ReadOnlyField()
+    descr = serializers.SerializerMethodField(method_name="get_descr")
     display_name = serializers.ReadOnlyField()
+    url = serializers.ReadOnlyField()
+
+    def get_descr(self, obj):
+        return obj.descr.lower()
 
 
 class DatabaseSerializer(serializers.Serializer):
