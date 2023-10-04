@@ -13,7 +13,7 @@ class DatabaseListViewSet(generics.ListAPIView):
     serializer_class = DatabaseListSerializer
 
     def get_queryset(self):
-        return Database.objects.all()
+        return Database.objects.filter(alive="Y")
 
 
 class DatabaseViewSet(APIView):
