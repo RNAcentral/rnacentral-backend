@@ -1,5 +1,5 @@
 # create image to export requirements
-FROM python:3.10-slim AS poetry
+FROM python:3.11-slim AS poetry
 
 # build dependencies
 RUN apt-get update \
@@ -21,7 +21,7 @@ RUN poetry export -f requirements.txt --without-hashes -o /tmp/requirements.txt
 
 
 # create rnacentral image
-FROM python:3.10-slim as rnacentral
+FROM python:3.11-slim as rnacentral
 
 ENV \
     # python
