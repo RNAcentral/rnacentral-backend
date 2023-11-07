@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "django_filters",
+    "drf_spectacular",
 ]
 
 PROJECT_APPS = ("sequence",)
@@ -119,6 +120,19 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_RATES": {"anon": "20/second", "user": "40/second"},
     # Use django-filter
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+# drf-spectacular (OpenAPI 3.0 schema)
+SPECTACULAR_SETTINGS = {
+    "TITLE": "RNAcentral API",
+    "DESCRIPTION": "Provides programmatic access to RNAcentral data.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": True,
+    "LICENSE": {
+        "name": "Creative Commons Zero license (CC0)",
+        "url": "https://creativecommons.org/share-your-work/public-domain/cc0/"
+    },
 }
 
 # Test runner with no database creation
