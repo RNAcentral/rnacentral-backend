@@ -2,6 +2,7 @@ from rest_framework import generics
 
 from .serializers import SequenceFeatureSerializer
 from ...models import SequenceFeature
+from ...utils import django_filter_warning
 
 
 class SequenceFeaturesAPIViewSet(generics.ListAPIView):
@@ -9,6 +10,7 @@ class SequenceFeaturesAPIViewSet(generics.ListAPIView):
 
     serializer_class = SequenceFeatureSerializer
 
+    @django_filter_warning
     def get_queryset(self):
         upi = self.kwargs["upi"]
         taxid = self.kwargs["taxid"]

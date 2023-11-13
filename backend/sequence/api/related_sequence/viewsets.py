@@ -6,6 +6,7 @@ from .serializers import (
     TargetProteinsSerializer,
 )
 from ...models import RelatedSequence
+from ...utils import django_filter_warning
 
 
 class TargetLncRNAsViewSet(generics.ListAPIView):
@@ -16,6 +17,7 @@ class TargetLncRNAsViewSet(generics.ListAPIView):
     def get_view_name(self):
         return "Target lncRNAs"
 
+    @django_filter_warning
     def get_queryset(self):
         source_urs_taxid = self.kwargs["source_urs_taxid"]
 
@@ -34,6 +36,7 @@ class TargetMiRNAsViewSet(generics.ListAPIView):
     def get_view_name(self):
         return "Target MiRNAs"
 
+    @django_filter_warning
     def get_queryset(self):
         target_urs_taxid = self.kwargs["target_urs_taxid"]
 
@@ -48,6 +51,7 @@ class TargetProteinsViewSet(generics.ListAPIView):
 
     serializer_class = TargetProteinsSerializer
 
+    @django_filter_warning
     def get_queryset(self):
         source_urs_taxid = self.kwargs["source_urs_taxid"]
 

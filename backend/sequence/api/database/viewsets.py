@@ -1,4 +1,5 @@
 from django.http import Http404
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -7,6 +8,7 @@ from .serializers import DatabaseSerializer, DatabaseListSerializer
 from ...models import Database
 
 
+@extend_schema(request=None, responses=DatabaseListSerializer)
 class DatabaseListViewSet(generics.ListAPIView):
     """API endpoint for getting a list of Expert Databases"""
 
@@ -16,6 +18,7 @@ class DatabaseListViewSet(generics.ListAPIView):
         return Database.objects.filter(alive="Y")
 
 
+@extend_schema(request=None, responses=DatabaseSerializer)
 class DatabaseViewSet(APIView):
     """Get data from a specific Expert Database"""
 

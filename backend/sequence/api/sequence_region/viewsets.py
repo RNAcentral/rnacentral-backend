@@ -2,6 +2,7 @@ from rest_framework import generics
 
 from .serializers import SequenceRegionSerializer
 from ...models import RnaPrecomputed, SequenceRegion
+from ...utils import django_filter_warning
 
 
 class SequenceRegionViewSet(generics.ListAPIView):
@@ -11,6 +12,7 @@ class SequenceRegionViewSet(generics.ListAPIView):
 
     serializer_class = SequenceRegionSerializer
 
+    @django_filter_warning
     def get_queryset(self):
         urs_taxid = self.kwargs["urs_taxid"]
 

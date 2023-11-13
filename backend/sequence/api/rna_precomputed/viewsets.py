@@ -1,14 +1,16 @@
 from django.http import Http404
 from django.db import connection
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .serializers import RnaSerializer, TaxonomySerializer
 from ...models import RnaPrecomputed
-from ...utils import dictfetchall
+from ...utils import dictfetchall, django_filter_warning
 
 
+@extend_schema(request=None, responses=RnaSerializer)
 class RnaPrecomputedViewSet(APIView):
     """Unique RNAcentral Sequence"""
 
@@ -32,6 +34,7 @@ class TaxonomyViewSet(generics.ListAPIView):
 
     serializer_class = TaxonomySerializer
 
+    @django_filter_warning
     def get_queryset(self):
         upi = self.kwargs["upi"]
         taxid = self.kwargs["taxid"]
