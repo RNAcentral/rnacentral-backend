@@ -1,27 +1,28 @@
 from rest_framework import serializers
 
-from ...models.rna_precomputed import RnaPrecomputed
-
 
 class RnaSerializer(serializers.Serializer):
     """Serializer class for a unique RNAcentral sequence"""
 
-    rnacentral_id = serializers.ReadOnlyField(source="id")
-    description = serializers.ReadOnlyField()
-    rna_type = serializers.ReadOnlyField()
-    databases = serializers.ReadOnlyField()
-    sequence = serializers.ReadOnlyField(source="upi.get_sequence")
-    length = serializers.ReadOnlyField(source="upi.length")
-    md5 = serializers.ReadOnlyField(source="upi.md5")
+    rnacentral_id = serializers.CharField(source="id")
+    description = serializers.CharField()
+    rna_type = serializers.CharField()
+    databases = serializers.CharField()
+    sequence = serializers.CharField(source="upi.get_sequence")
+    length = serializers.IntegerField(source="upi.length")
+    md5 = serializers.CharField(source="upi.md5")
 
 
 class TaxonomySerializer(serializers.Serializer):
-    urs_taxid = serializers.ReadOnlyField()
-    short_description = serializers.ReadOnlyField()
-    species_name = serializers.ReadOnlyField()
+    """Serializer class for Taxonomy"""
+    urs_taxid = serializers.CharField()
+    short_description = serializers.CharField()
+    species_name = serializers.CharField()
 
 
-class RnaPrecomputedSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RnaPrecomputed
-        fields = ("id", "rna_type", "description", "databases")
+class RnaPrecomputedSerializer(serializers.Serializer):
+    """Serializer class used in related sequences identified by Ensembl Compara."""
+    id = serializers.CharField()
+    rna_type = serializers.CharField()
+    description = serializers.CharField()
+    databases = serializers.CharField()

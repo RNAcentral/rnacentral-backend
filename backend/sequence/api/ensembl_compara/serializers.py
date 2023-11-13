@@ -6,5 +6,5 @@ from ..rna_precomputed.serializers import RnaPrecomputedSerializer
 class EnsemblComparaSerializer(serializers.Serializer):
     """Serializer class for Ensembl Compara"""
 
-    ensembl_transcript_id = serializers.ReadOnlyField()
+    ensembl_transcript_id = serializers.CharField()
     rnacentral_id = RnaPrecomputedSerializer(source="urs_taxid")

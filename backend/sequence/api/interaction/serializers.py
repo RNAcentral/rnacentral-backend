@@ -1,12 +1,14 @@
 import re
 
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 
 class InteractionsSerializer(serializers.Serializer):
     """Serializer class for interactions"""
 
-    intact_id = serializers.ReadOnlyField()
+    intact_id = serializers.CharField()
     intact_id_url = serializers.SerializerMethodField(method_name="get_intact_id_url")
     interacting_id = serializers.SerializerMethodField(method_name="get_interacting_id")
     interacting_id_url = serializers.SerializerMethodField(
@@ -14,6 +16,7 @@ class InteractionsSerializer(serializers.Serializer):
     )
     names = serializers.JSONField(read_only=True)
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_intact_id_url(self, obj):
         match = re.search(r"URS[0-9A-Fa-f]{10}[_-]\d+", obj.intact_id)
         return (
@@ -22,6 +25,7 @@ class InteractionsSerializer(serializers.Serializer):
             else f"https://www.ebi.ac.uk/intact/interaction/{obj.intact_id}"
         )
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_interacting_id(self, obj):
         match = re.search(r"URS[0-9A-Fa-f]{10}[_-]\d+", "".join(obj.names))
         if match:
@@ -32,6 +36,7 @@ class InteractionsSerializer(serializers.Serializer):
             interacting_id = obj.interacting_id
         return interacting_id
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_interacting_id_url(self, obj):
         match = re.search(r"URS[0-9A-Fa-f]{10}[_-]\d+", "".join(obj.names))
         if match:

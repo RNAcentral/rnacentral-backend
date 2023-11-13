@@ -2,10 +2,10 @@ from rest_framework import serializers
 
 
 class SequenceFeatureSerializer(serializers.Serializer):
-    feature_name = serializers.ReadOnlyField()
+    feature_name = serializers.CharField()
     metadata = serializers.JSONField(read_only=True)
-    start = serializers.ReadOnlyField()
-    stop = serializers.ReadOnlyField()
-    taxid = serializers.ReadOnlyField()
+    start = serializers.IntegerField()
+    stop = serializers.IntegerField()
+    taxid = serializers.IntegerField()
     accession = serializers.StringRelatedField(many=True)
     upi = serializers.StringRelatedField()
