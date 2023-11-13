@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
-from sequence.api.accession.viewsets import AccessionAPIViewSet
+from sequence.api.accession.viewsets import AccessionViewSet
 from sequence.api.sequence_feature.viewsets import SequenceFeaturesAPIViewSet
 from sequence.api.rna_precomputed.viewsets import RnaPrecomputedViewSet, TaxonomyViewSet
 from sequence.api.xref.viewsets import XrefAPIViewSet
@@ -54,8 +54,8 @@ urlpatterns = [
     ),
     path(
         # view for an individual cross-reference
-        "api/v2/accession/<str:pk>/info",
-        AccessionAPIViewSet.as_view(),
+        "api/v2/accession/<str:pk>",
+        AccessionViewSet.as_view({"get": "retrieve"}),
         name="accession-detail",
     ),
     path(
@@ -111,7 +111,7 @@ urlpatterns = [
     path(
         # information about the qc status for a given sequence
         "api/v2/rna/<str:pk>/qc-status",
-        QcStatusViewSet.as_view(),
+        QcStatusViewSet.as_view({"get": "retrieve"}),
         name="qc-status",
     ),
     path(
