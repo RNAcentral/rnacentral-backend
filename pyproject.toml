@@ -24,6 +24,7 @@ boto3 = "^1.28.29"
 colorhash = "^1.2.1"
 drf-spectacular = "^0.26.5"
 pyyaml = "^6.0.1"
+django-tinymce = "^3.6.1"
 
 
 [build-system]
