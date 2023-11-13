@@ -36,9 +36,10 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_filters",
     "drf_spectacular",
+    "tinymce",
 ]
 
-PROJECT_APPS = ("sequence",)
+PROJECT_APPS = ("blog", "sequence",)
 
 INSTALLED_APPS += PROJECT_APPS
 
