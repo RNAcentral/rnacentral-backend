@@ -133,6 +133,7 @@ SPECTACULAR_SETTINGS = {
         "name": "Creative Commons Zero license (CC0)",
         "url": "https://creativecommons.org/share-your-work/public-domain/cc0/"
     },
+    "SCHEMA_PATH_PREFIX": "/api/v2",
 }
 
 # Test runner with no database creation
