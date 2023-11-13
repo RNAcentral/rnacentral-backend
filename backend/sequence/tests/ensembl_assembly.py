@@ -8,12 +8,12 @@ class EnsemblAssemblySerializerTest(APITestCase):
     def test_serializer_fields(self):
         serializer = EnsemblAssemblySerializer()
         expected_fields = {
-            "assembly_id": serializers.ReadOnlyField,
-            "species": serializers.ReadOnlyField,
-            "ucsc_db_id": serializers.ReadOnlyField,
-            "ensembl_division_name": serializers.ReadOnlyField,
+            "assembly_id": serializers.CharField,
+            "species": serializers.CharField,
+            "ucsc_db_id": serializers.CharField,
+            "ensembl_division_name": serializers.CharField,
             "ensembl_division_url": serializers.SerializerMethodField,
-            "ensembl_species_url": serializers.ReadOnlyField,
+            "ensembl_species_url": serializers.CharField,
         }
 
         # Check if the serializer has the expected fields
