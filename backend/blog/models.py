@@ -4,6 +4,7 @@ from django.db import models
 
 class Article(models.Model):
     title = models.CharField(max_length=1000)
+    release_image = models.ImageField(upload_to="timeline")
     content = RichTextUploadingField()
     created = models.DateField(auto_now_add=True)
     featured = models.BooleanField(default=False)
