@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_filters",
     "drf_spectacular",
-    "tinymce",
+    "ckeditor",
+    "ckeditor_uploader",
 ]
 
 PROJECT_APPS = ("blog", "sequence",)
@@ -106,6 +107,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# CKEditor upload path
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+# Custom CKEditor
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+    },
+}
 
 REST_FRAMEWORK = {
     # Allowing unrestricted access.
