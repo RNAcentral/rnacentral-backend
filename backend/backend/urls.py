@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
+from blog.views import BlogViewSet, BlogFeaturedViewSet
 from sequence.api.accession.viewsets import AccessionViewSet
 from sequence.api.sequence_feature.viewsets import SequenceFeaturesAPIViewSet
 from sequence.api.rna_precomputed.viewsets import RnaPrecomputedViewSet, TaxonomyViewSet
@@ -151,6 +152,24 @@ urlpatterns = [
         "api/v2/database/<str:pk>",
         DatabaseViewSet.as_view(),
         name="database",
+    ),
+    path(
+        # list of blog posts
+        "blog",
+        BlogViewSet.as_view({"get": "list"}),
+        name="blog-list"
+    ),
+    path(
+        # view specific post
+        "blog/<int:pk>",
+        BlogViewSet.as_view({"get": "retrieve"}),
+        name="blog-detail"
+    ),
+    path(
+        # list of featured blog posts
+        "blog/highlight",
+        BlogFeaturedViewSet.as_view({"get": "list"}),
+        name="blog-featured"
     ),
     path("ckeditor/", include("ckeditor_uploader.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
