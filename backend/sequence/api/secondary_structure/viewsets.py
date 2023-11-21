@@ -5,13 +5,20 @@ import zlib
 from colorhash import ColorHash
 from django.conf import settings
 from django.http import HttpResponse
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema
 from rest_framework.response import Response
-from rest_framework import generics, status
+from rest_framework.views import APIView
+from rest_framework import status
 
 
-class SecondaryStructureSVGImage(generics.ListAPIView):
+class SecondaryStructure(APIView):
     """SVG image for an RNA sequence"""
 
+    def get_serializer(self, *args, **kwargs):
+        return None
+
+    @extend_schema(responses={(200, "image/svg"): OpenApiTypes.BINARY})
     def get(self, request, upi=None, format=None):
         s3 = boto3.resource(
             "s3",
