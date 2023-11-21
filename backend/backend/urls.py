@@ -36,7 +36,7 @@ from sequence.api.qc_status.viewsets import QcStatusViewSet
 from sequence.api.rfam.viewsets import RfamHitsViewSet
 from sequence.api.sequence_region.viewsets import SequenceRegionViewSet
 from sequence.api.database.viewsets import DatabaseViewSet, DatabaseListViewSet
-from sequence.api.secondary_structure.viewsets import SecondaryStructureSVGImage
+from sequence.api.secondary_structure.viewsets import SecondaryStructure
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -138,7 +138,7 @@ urlpatterns = [
     path(
         # secondary structure thumbnail in SVG format
         "api/v2/rna/<str:upi>/2d/svg",
-        SecondaryStructureSVGImage.as_view(),
+        SecondaryStructure.as_view(),
         name="rna-2d-svg",
     ),
     path(
