@@ -4,7 +4,7 @@ from rest_framework import serializers
 class QcStatusSerializer(serializers.Serializer):
     """Serializer class for QC Status"""
 
-    id = serializers.CharField(source="id.id")
+    id = serializers.PrimaryKeyRelatedField(read_only=True)  # see README
     has_issue = serializers.BooleanField()
     incomplete_sequence = serializers.BooleanField()
     possible_contamination = serializers.BooleanField()
