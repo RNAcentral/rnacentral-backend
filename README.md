@@ -25,3 +25,9 @@ To run all tests, use
   ```
   docker exec -it <container_id> python /backend/manage.py test sequence.tests
   ```
+
+## Developer details
+
+1. For QcStatusSerializer, using PrimaryKeyRelatedField instead of CharField avoids a 
+new query to the database. Drf-spectacular will throw a [warning](https://stackoverflow.com/questions/63078096/django-rest-framework-why-does-primarykeyrelatedfield-document-as-a-string-in-t)
+message though.
