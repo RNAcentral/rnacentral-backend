@@ -24,8 +24,7 @@ class TargetLncRNAsViewSet(generics.ListAPIView):
         return RelatedSequence.objects.filter(
             relationship_type="target_rna",
             source_urs_taxid=source_urs_taxid,
-        ).order_by("target_urs_taxid")
-        # .select_related("target_accession")
+        ).select_related("target_urs_taxid").order_by("target_urs_taxid")
 
 
 class TargetMiRNAsViewSet(generics.ListAPIView):
@@ -40,10 +39,10 @@ class TargetMiRNAsViewSet(generics.ListAPIView):
     def get_queryset(self):
         target_urs_taxid = self.kwargs["target_urs_taxid"]
 
-        return RelatedSequence.objects.filter(
+        return (RelatedSequence.objects.filter(
             relationship_type="target_rna",
             target_urs_taxid=target_urs_taxid,
-        ).order_by("source_urs_taxid__short_description")
+        ).select_related("source_urs_taxid").order_by("source_urs_taxid__short_description"))
 
 
 class TargetProteinsViewSet(generics.ListAPIView):

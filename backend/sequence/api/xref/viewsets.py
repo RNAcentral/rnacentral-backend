@@ -13,6 +13,9 @@ class XrefAPIViewSet(generics.ListAPIView):
     filter_backends = [filters.SearchFilter]
     search_fields = ["db__display_name"]
 
+    def get_view_name(self):
+        return "Xref"
+
     def get_queryset(self):
         upi = self.kwargs["upi"]
         try:
@@ -23,6 +26,7 @@ class XrefAPIViewSet(generics.ListAPIView):
         xrefs = (
             Xref.objects.filter(deleted="N", upi=upi)
             .exclude(accession__accession__startswith="PSICQUIC")
+            .select_related("db", "accession", "created", "last")
             .order_by("db")
         )
 
@@ -31,8 +35,13 @@ class XrefAPIViewSet(generics.ListAPIView):
         # xrefs list doesn't contain proper RNA sequences, we should at least
         # return these wrong annotations to hard-links to deleted sequences
         # accessible from web.
-        if not xrefs:
-            xrefs = Xref.objects.filter(deleted="Y", upi=upi).order_by("db")
+        if not xrefs.exists():
+            xrefs = (
+                Xref.objects.filter(deleted="Y", upi=upi)
+                .exclude(accession__accession__startswith="PSICQUIC")
+                .select_related("db", "accession", "created", "last")
+                .order_by("db")
+            )
 
         if taxid:
             xrefs = xrefs.filter(taxid=taxid)

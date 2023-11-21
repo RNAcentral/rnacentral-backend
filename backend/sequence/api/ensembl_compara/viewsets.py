@@ -21,6 +21,7 @@ class EnsemblComparaViewSet(generics.ListAPIView):
             return (
                 EnsemblCompara.objects.filter(homology_id=homology_id.homology_id)
                 .exclude(urs_taxid=urs_taxid)
+                .select_related("urs_taxid")
                 .order_by("urs_taxid__description")
             )
         else:

@@ -15,4 +15,4 @@ class SequenceFeaturesAPIViewSet(generics.ListAPIView):
         upi = self.kwargs["upi"]
         taxid = self.kwargs["taxid"]
 
-        return SequenceFeature.objects.filter(upi=upi, taxid=taxid)
+        return SequenceFeature.objects.filter(upi=upi, taxid=taxid).select_related("upi")

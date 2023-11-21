@@ -13,4 +13,4 @@ class RfamHitsViewSet(generics.ListAPIView):
     @django_filter_warning
     def get_queryset(self):
         upi = self.kwargs["upi"]
-        return RfamHit.objects.filter(upi=upi).select_related("rfam_model")
+        return RfamHit.objects.filter(upi=upi).select_related("rfam_model", "rfam_model__rfam_clan_id")

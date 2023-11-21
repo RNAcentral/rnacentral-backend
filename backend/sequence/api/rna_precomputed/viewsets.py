@@ -19,7 +19,13 @@ class RnaPrecomputedViewSet(APIView):
 
     def get_object(self, pk):
         try:
-            return RnaPrecomputed.objects.get(pk=pk)
+            return (
+                RnaPrecomputed.objects
+                .select_related("upi")
+                .only("id", "description", "rna_type", "databases",
+                      "upi__seq_short", "upi__seq_long", "upi__length",
+                      "upi__md5")
+                .get(pk=pk))
         except RnaPrecomputed.DoesNotExist:
             raise Http404
 
