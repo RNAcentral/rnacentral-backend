@@ -3,6 +3,5 @@
 *.pyc
 __pycache__
 .idea
-.venv
+env
 .env
-local_settings.py

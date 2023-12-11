@@ -2,32 +2,22 @@
 
 ## Installation
 
-1. Clone Git repository:
-
+1. Clone Git repository and access the directory:
   ```
   git clone --recursive https://github.com/RNAcentral/rnacentral-backend.git
+  cd rnacentral-backend
   ```
 
-2. Using the local_settings_example.py file as a template, create the local_settings.py file
-and change the variables as desired. You will need to set up another database, as the public database
-uses a version of postgres that is no longer supported by newer versions of Django.
+2. Using the `.env-example` file as a template, create the `.env` file and change the variables as desired.
 
-3. Run the app using [Docker](https://www.docker.com):
-
+3. Create and activate a Virtual Environment
   ```
-  docker-compose up --build
+  python -m venv env
+  source env/bin/activate
   ```
 
-## Tests
-
-To run all tests, use
-
+4. Run the app using:
   ```
-  docker exec -it <container_id> python /backend/manage.py test sequence.tests
+  cd backend
+  uvicorn main:app --reload
   ```
-
-## Developer details
-
-1. For QcStatusSerializer, using PrimaryKeyRelatedField instead of CharField avoids a 
-new query to the database. Drf-spectacular will throw a [warning](https://stackoverflow.com/questions/63078096/django-rest-framework-why-does-primarykeyrelatedfield-document-as-a-string-in-t)
-message though.
