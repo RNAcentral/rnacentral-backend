@@ -1,5 +1,5 @@
 # SQLAlchemy models
-from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, Date, DateTime, ForeignKey, Integer, String
 
 from database import Base
 
@@ -32,3 +32,20 @@ class RnaPrecomputed(Base):
     is_active = Column(Boolean)
     last_release = Column(Integer)
     short_description = Column(String)
+
+
+class Xref(Base):
+    __tablename__ = "xref"
+
+    id = Column(Integer, primary_key=True, index=True)
+    db = Column(Integer, name='dbid')
+    accession = Column(String, name='ac')
+    created = Column(Integer)
+    last = Column(Integer)
+    upi = Column(String, ForeignKey("rna.upi"))
+    version_i = Column(Integer)
+    deleted = Column(String)
+    timestamp = Column(DateTime)
+    userstamp = Column(String)
+    version = Column(Integer)
+    taxid = Column(Integer)

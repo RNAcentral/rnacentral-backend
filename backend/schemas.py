@@ -1,5 +1,5 @@
 # Pydantic models
-from datetime import date
+from datetime import date, datetime
 from pydantic import BaseModel
 
 
@@ -26,3 +26,18 @@ class RnaPrecomputed(BaseModel):
     is_active: bool
     last_release: int
     short_description: str
+
+
+class Xref(BaseModel):
+    id: int
+    db: int
+    accession: str
+    created: int
+    last: int
+    upi: str
+    version_i: int
+    deleted: str
+    timestamp: datetime
+    userstamp: str
+    version: int
+    taxid: int
