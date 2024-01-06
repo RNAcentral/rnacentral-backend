@@ -1,5 +1,6 @@
 # SQLAlchemy models
 from sqlalchemy import Boolean, Column, Date, DateTime, ForeignKey, Integer, String
+from sqlalchemy.orm import relationship
 
 from database import Base
 
@@ -12,10 +13,12 @@ class Rna(Base):
     timestamp = Column(Date)
     userstamp = Column(String)
     crc64 = Column(String)
-    length = Column(Integer)
+    length = Column(Integer, name="len")
     seq_short = Column(String)
     seq_long = Column(String)
     md5 = Column(String)
+
+    precomputed = relationship("RnaPrecomputed", back_populates="rna")
 
 
 class RnaPrecomputed(Base):
@@ -32,6 +35,8 @@ class RnaPrecomputed(Base):
     is_active = Column(Boolean)
     last_release = Column(Integer)
     short_description = Column(String)
+
+    rna = relationship("Rna", back_populates="precomputed")
 
 
 class Xref(Base):
