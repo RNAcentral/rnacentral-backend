@@ -3,17 +3,6 @@ from datetime import date, datetime
 from pydantic import BaseModel
 
 
-class Rna(BaseModel):
-    upi: str
-    timestamp: date
-    userstamp: str
-    crc64: str
-    length: int
-    seq_short: str
-    seq_long: str
-    md5: str
-
-
 class RnaPrecomputed(BaseModel):
     id: str
     taxid: int
@@ -26,6 +15,10 @@ class RnaPrecomputed(BaseModel):
     is_active: bool
     last_release: int
     short_description: str
+    length: int
+    seq_short: str | None = None
+    seq_long: str | None = None
+    md5: str
 
 
 class Xref(BaseModel):
