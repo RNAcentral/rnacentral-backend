@@ -16,8 +16,7 @@ class RnaPrecomputed(BaseModel):
     last_release: int
     short_description: str
     length: int
-    seq_short: str | None = None
-    seq_long: str | None = None
+    sequence: str
     md5: str
 
 
