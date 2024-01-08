@@ -1,4 +1,5 @@
 from database import SessionLocal
+from debug_toolbar.middleware import DebugToolbarMiddleware
 from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy.orm import Session
 from typing import Annotated
@@ -6,7 +7,11 @@ from typing import Annotated
 import models
 import schemas
 
-app = FastAPI()
+app = FastAPI(debug=True)
+app.add_middleware(
+    DebugToolbarMiddleware,
+    panels=["debug_toolbar.panels.sqlalchemy.SQLAlchemyPanel"],
+)
 
 
 def get_db():
