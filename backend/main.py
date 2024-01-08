@@ -25,26 +25,32 @@ async def rna_precomputed(id: str, db: db_dependency):
     """
     Unique RNAcentral Sequence.
     """
-    data = db.query(models.RnaPrecomputed).filter(models.RnaPrecomputed.id == id).first()
+    data = (
+        db.query(models.RnaPrecomputed, models.Rna)
+        .join(models.Rna, models.RnaPrecomputed.upi == models.Rna.upi)
+        .filter(models.RnaPrecomputed.id == id).first()
+    )
     if not data:
         raise HTTPException(status_code=404, detail="RNA not found")
 
+    db_precomputed, db_rna = data
+    sequence = db_rna.seq_short if db_rna.seq_short else db_rna.seq_long
+
     response = schemas.RnaPrecomputed(
-        id=data.id,
-        taxid=data.taxid,
-        description=data.description,
-        upi=data.upi,
-        rna_type=data.rna_type,
-        update_date=data.update_date,
-        has_coordinates=data.has_coordinates,
-        databases=data.databases,
-        is_active=data.is_active,
-        last_release=data.last_release,
-        short_description=data.short_description,
-        length=data.rna.length,
-        seq_short=data.rna.seq_short,
-        seq_long=data.rna.seq_long,
-        md5=data.rna.md5
+        id=db_precomputed.id,
+        taxid=db_precomputed.taxid,
+        description=db_precomputed.description,
+        upi=db_precomputed.upi,
+        rna_type=db_precomputed.rna_type,
+        update_date=db_precomputed.update_date,
+        has_coordinates=db_precomputed.has_coordinates,
+        databases=db_precomputed.databases,
+        is_active=db_precomputed.is_active,
+        last_release=db_precomputed.last_release,
+        short_description=db_precomputed.short_description,
+        length=db_rna.length,
+        sequence=sequence.replace("T", "U").upper(),
+        md5=db_rna.md5
     )
 
     return response
