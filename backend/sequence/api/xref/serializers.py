@@ -23,6 +23,14 @@ class XrefSerializer(serializers.Serializer):
     )
     taxid = serializers.IntegerField()
     accession = AccessionSerializer()
+
+    # database-specific fields
+    ensembl_splice_variants = serializers.SerializerMethodField(
+        method_name="get_ensembl_splice_variants"
+    )
+    gencode_transcript_id = serializers.SerializerMethodField(
+        method_name="get_gencode_transcript_id"
+    )
     mirbase_mature_products = serializers.SerializerMethodField(
         method_name="get_mirbase_mature_products"
     )
@@ -38,13 +46,27 @@ class XrefSerializer(serializers.Serializer):
     refseq_splice_variants = serializers.SerializerMethodField(
         method_name="get_refseq_splice_variants"
     )
-    ensembl_splice_variants = serializers.SerializerMethodField(
-        method_name="get_ensembl_splice_variants"
-    )
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_deleted(self, obj):
         return True if obj.deleted == "N" else False
+
+    def get_ensembl_splice_variants(self, obj):
+        if obj.db_id != 25:  # 25 = ENSEMBL
+            return None
+
+        return get_related_sequence(obj.accession_id, "isoform")
+
+    def get_gencode_transcript_id(self, obj):
+        if obj.db_id != 47:  # 47 = ENSEMBL_GENCODE
+            return None
+
+        if obj.accession_id.startswith("GENCODE:"):
+            return obj.accession_id.split(":")[1]
+        elif obj.accession_id.startswith("ENSMUST"):
+            return obj.accession_id
+        else:
+            return None
 
     def get_mirbase_mature_products(self, obj):
         if obj.db_id != 4:  # 4 = MIRBASE
@@ -72,12 +94,6 @@ class XrefSerializer(serializers.Serializer):
 
     def get_refseq_splice_variants(self, obj):
         if obj.db_id != 9:  # 9 = REFSEQ
-            return None
-
-        return get_related_sequence(obj.accession_id, "isoform")
-
-    def get_ensembl_splice_variants(self, obj):
-        if obj.db_id != 25:  # 25 = ENSEMBL
             return None
 
         return get_related_sequence(obj.accession_id, "isoform")
