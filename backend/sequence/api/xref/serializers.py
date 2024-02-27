@@ -16,6 +16,9 @@ class XrefSerializer(serializers.Serializer):
     )
     taxid = serializers.IntegerField()
     accession = AccessionSerializer()
+    mirbase_mature_products = serializers.SerializerMethodField(
+        method_name="get_mirbase_mature_products"
+    )
     mirbase_precursor = serializers.SerializerMethodField(
         method_name="get_mirbase_precursor"
     )
@@ -23,6 +26,15 @@ class XrefSerializer(serializers.Serializer):
     @extend_schema_field(OpenApiTypes.STR)
     def get_deleted(self, obj):
         return True if obj.deleted == "N" else False
+
+    def get_mirbase_mature_products(self, obj):
+        if obj.db_id != 4:  # 4 = MIRBASE
+            return None
+
+        related_sequence = RelatedSequence.objects.filter(
+            source_accession=obj.accession_id, relationship_type="mature_product"
+        ).first()
+        return related_sequence.target_urs_taxid_id if related_sequence else None
 
     def get_mirbase_precursor(self, obj):
         if obj.db_id != 4:  # 4 = MIRBASE
