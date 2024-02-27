@@ -35,6 +35,12 @@ class XrefSerializer(serializers.Serializer):
     refseq_mirna_precursor = serializers.SerializerMethodField(
         method_name="get_refseq_mirna_precursor"
     )
+    refseq_splice_variants = serializers.SerializerMethodField(
+        method_name="get_refseq_splice_variants"
+    )
+    ensembl_splice_variants = serializers.SerializerMethodField(
+        method_name="get_ensembl_splice_variants"
+    )
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_deleted(self, obj):
@@ -63,3 +69,15 @@ class XrefSerializer(serializers.Serializer):
             return None
 
         return get_related_sequence(obj.accession_id, "precursor")
+
+    def get_refseq_splice_variants(self, obj):
+        if obj.db_id != 9:  # 9 = REFSEQ
+            return None
+
+        return get_related_sequence(obj.accession_id, "isoform")
+
+    def get_ensembl_splice_variants(self, obj):
+        if obj.db_id != 25:  # 25 = ENSEMBL
+            return None
+
+        return get_related_sequence(obj.accession_id, "isoform")
