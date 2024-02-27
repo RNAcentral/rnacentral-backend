@@ -25,7 +25,6 @@ class XrefAPIViewSet(generics.ListAPIView):
 
         xrefs = (
             Xref.objects.filter(deleted="N", upi=upi)
-            .exclude(accession__accession__startswith="PSICQUIC")
             .select_related("db", "accession", "created", "last")
             .order_by("db")
         )
@@ -38,7 +37,6 @@ class XrefAPIViewSet(generics.ListAPIView):
         if not xrefs.exists():
             xrefs = (
                 Xref.objects.filter(deleted="Y", upi=upi)
-                .exclude(accession__accession__startswith="PSICQUIC")
                 .select_related("db", "accession", "created", "last")
                 .order_by("db")
             )
