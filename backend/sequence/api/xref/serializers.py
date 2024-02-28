@@ -28,6 +28,9 @@ class XrefSerializer(serializers.Serializer):
     ensembl_splice_variants = serializers.SerializerMethodField(
         method_name="get_ensembl_splice_variants"
     )
+    gencode_ensembl_url = serializers.SerializerMethodField(
+        method_name="get_gencode_ensembl_url"
+    )
     gencode_transcript_id = serializers.SerializerMethodField(
         method_name="get_gencode_transcript_id"
     )
@@ -56,6 +59,23 @@ class XrefSerializer(serializers.Serializer):
             return None
 
         return get_related_sequence(obj.accession_id, "isoform")
+
+    def get_gencode_ensembl_url(self, obj):
+        if obj.db_id != 47:  # 47 = ENSEMBL_GENCODE
+            return None
+
+        if obj.accession_id.startswith("GENCODE:"):
+            transcript_id = obj.accession_id.split(":")[1]
+        elif obj.accession_id.startswith("ENSMUST"):
+            transcript_id = obj.accession_id
+        else:
+            transcript_id = None
+
+        if transcript_id:
+            species = obj.accession.species.replace(" ", "_")
+            return f"http://ensembl.org/{species}/Transcript/Summary?t={transcript_id}"
+        else:
+            return None
 
     def get_gencode_transcript_id(self, obj):
         if obj.db_id != 47:  # 47 = ENSEMBL_GENCODE
