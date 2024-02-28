@@ -14,7 +14,7 @@ secondary = true
 
 [tool.poetry.dependencies]
 python = "^3.11"
-Django = "4.1.10"
+Django = "4.1.13"
 djangorestframework = "^3.14.0"
 python-dotenv = "^0.21.0"
 psycopg2-binary = "^2.9.7"
@@ -26,6 +26,7 @@ drf-spectacular = "^0.26.5"
 pyyaml = "^6.0.1"
 django-ckeditor = "^6.7.0"
 pillow = "^10.1.0"
+requests = "^2.31.0"
 
 
 [build-system]
