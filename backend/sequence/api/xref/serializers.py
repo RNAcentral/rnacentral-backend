@@ -1,3 +1,6 @@
+import json
+import requests
+
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
@@ -42,6 +45,9 @@ class XrefSerializer(serializers.Serializer):
     )
     mirbase_precursor = serializers.SerializerMethodField(
         method_name="get_mirbase_precursor"
+    )
+    quickgo_hits = serializers.SerializerMethodField(
+        method_name="get_quickgo_hits"
     )
     refseq_mirna_mature_products = serializers.SerializerMethodField(
         method_name="get_refseq_mirna_mature_products"
@@ -115,6 +121,22 @@ class XrefSerializer(serializers.Serializer):
             return None
 
         return get_related_sequence(obj.accession_id, "precursor")
+
+    def get_quickgo_hits(self, obj):
+        """Return the number of annotations in QuickGO"""
+        if obj.accession.database == "PSICQUIC":
+            urs_taxid = obj.upi.upi + "_" + str(obj.taxid)
+            try:
+                response = requests.get(
+                    f"https://www.ebi.ac.uk/QuickGO/services/annotation/stats?geneProductId={urs_taxid}"
+                )
+                data = json.loads(response.text)
+                hits = data["results"][0]["totalHits"]
+            except Exception:
+                hits = None
+        else:
+            hits = None
+        return hits
 
     def get_refseq_mirna_mature_products(self, obj):
         if obj.db_id != 9:  # 9 = REFSEQ
