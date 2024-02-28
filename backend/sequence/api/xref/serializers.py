@@ -25,6 +25,9 @@ class XrefSerializer(serializers.Serializer):
     accession = AccessionSerializer()
 
     # database-specific fields
+    ensembl_url = serializers.SerializerMethodField(
+        method_name="get_ensembl_url"
+    )
     ensembl_splice_variants = serializers.SerializerMethodField(
         method_name="get_ensembl_splice_variants"
     )
@@ -53,6 +56,19 @@ class XrefSerializer(serializers.Serializer):
     @extend_schema_field(OpenApiTypes.STR)
     def get_deleted(self, obj):
         return True if obj.deleted == "N" else False
+
+    def get_ensembl_url(self, obj):
+        """Return the correct ensembl domain"""
+        if obj.accession.database == "ENSEMBL_FUNGI":
+            return "http://fungi.ensembl.org"
+        elif obj.accession.database == "ENSEMBL_METAZOA":
+            return "http://metazoa.ensembl.org"
+        elif obj.accession.database == "ENSEMBL_PLANTS":
+            return "http://plants.ensembl.org"
+        elif obj.accession.database == "ENSEMBL_PROTISTS":
+            return "http://protists.ensembl.org"
+        else:
+            return None
 
     def get_ensembl_splice_variants(self, obj):
         if obj.db_id != 25:  # 25 = ENSEMBL
